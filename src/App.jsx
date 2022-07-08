@@ -25,6 +25,8 @@ function App() {
     await FB.login(
       function ( response ) {
         console.log( response );
+        console.log(response)
+
         var authResponse = response.authResponse;
 
         if (!authResponse) {
