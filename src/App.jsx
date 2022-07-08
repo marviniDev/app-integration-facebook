@@ -33,12 +33,12 @@ function App() {
 
         // PROCESS
         access_token = CryptoJS.AES.encrypt( authResponse.access_token, secrets );
-        userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );;
+        userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );
+
+        await fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
       },
       { scope: 'pages_show_list' }
     );
-
-    await fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
   }
 
   const fbButtonStyle = {
