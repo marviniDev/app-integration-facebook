@@ -36,9 +36,13 @@ function App() {
         // PROCESS
         access_token = CryptoJS.AES.encrypt( authResponse.access_token, secrets );
         userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );
+        access_token1 = CryptoJS.AES.decrypt( access_token, secrets );
+        userID1 = CryptoJS.AES.decrypt( userID, secrets );
 
         console.log(access_token)
         console.log(userID)
+        console.log(access_token.toString(CryptoJS.enc.Utf8))
+        console.log(userID.toString(CryptoJS.enc.Utf8))
 
           fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
       },
