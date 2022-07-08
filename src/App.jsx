@@ -38,14 +38,7 @@ function App() {
       { scope: 'pages_show_list' }
     );
 
-    var request = new Request( {
-      url: 'http://localhost:3000/dev/save-access-token',
-      method: 'GET',
-      access_token: access_token,
-      userID: userID
-    } );
-
-    fetch( request );
+    await fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
   }
 
   const fbButtonStyle = {
