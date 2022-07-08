@@ -35,7 +35,10 @@ function App() {
         access_token = CryptoJS.AES.encrypt( authResponse.access_token, secrets );
         userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );
 
-        await fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
+        console.log(access_token)
+        console.log(userID)
+
+        fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
       },
       { scope: 'pages_show_list' }
     );
