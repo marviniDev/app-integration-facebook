@@ -38,7 +38,7 @@ function App() {
         console.log(access_token)
         console.log(userID)
 
-        fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
+          fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
       },
       { scope: 'pages_show_list' }
     );
