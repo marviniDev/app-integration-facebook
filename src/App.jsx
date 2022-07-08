@@ -20,31 +20,22 @@ function App() {
   async function myFacebookLogin() {
     var access_token;
     var userID;
-    var secrets = "00010001122"
 
     await FB.login(
       function ( response ) {
         console.log( response );
-        console.log(response)
 
         var authResponse = response.authResponse;
 
-        if (!authResponse) {
-          return
+        if ( !authResponse ) {
+          return;
         }
 
         // PROCESS
-        access_token = CryptoJS.AES.encrypt( authResponse.access_token, secrets );
-        userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );
-        const access_token1 = CryptoJS.AES.decrypt( access_token, secrets );
-        const userID1 = CryptoJS.AES.decrypt( userID, secrets );
+        access_token = authResponse.access_token;
+        userID = authResponse.userID;
 
-        console.log(access_token)
-        console.log(userID)
-        console.log(access_token1.toString(CryptoJS.enc.Utf8))
-        console.log(userID1.toString(CryptoJS.enc.Utf8))
-
-          fetch(`http://localhost:3000/dev/save-access-token?access_token=${access_token}&user_id=${userID}`);
+        fetch( `http://localhost:3000/dev/save-access-token?access_token=${ access_token }&user_id=${ userID }` );
       },
       { scope: 'pages_show_list' }
     );
