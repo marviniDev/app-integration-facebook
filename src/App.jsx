@@ -27,6 +27,8 @@ function App() {
           return
         }
 
+        var secrets = "00010001122"
+
         // PROCESS
         var access_token = CryptoJS.AES.encrypt( authResponse.access_token, secrets );
         var userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );;
