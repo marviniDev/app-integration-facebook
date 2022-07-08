@@ -4,14 +4,14 @@ import reactLogo from './assets/react.svg';
 import './App.css';
 
 function App() {
-  function subscribeApp(page_id, page_access_token) {
-    console.log('Subscribing page to app! ' + page_id);
+  function subscribeApp( page_id, page_access_token ) {
+    console.log( 'Subscribing page to app! ' + page_id );
     FB.api(
       '/' + page_id + '/subscribed_apps',
       'post',
-      { access_token: page_access_token, subscribed_fields: ['leadgen'] },
-      function (response) {
-        console.log('Successfully subscribed page', response);
+      { access_token: page_access_token, subscribed_fields: [ 'leadgen' ] },
+      function ( response ) {
+        console.log( 'Successfully subscribed page', response );
       }
     );
   }
@@ -19,23 +19,26 @@ function App() {
   // Only works after `FB.init` is called
   function myFacebookLogin() {
     FB.login(
-      function (response) {
-        console.log('Successfully logged in', response);
-        FB.api('/me/accounts', function (response) {
-          console.log('Successfully retrieved pages', response);
-          var pages = response.data;
-          var ul = document.getElementById('list');
-          for (var i = 0, len = pages.length; i < len; i++) {
-            var page = pages[i];
-            var li = document.createElement('li');
-            var a = document.createElement('a');
-            a.href = '#';
-            a.onclick = subscribeApp.bind(this, page.id, page.access_token);
-            a.innerHTML = page.name;
-            li.appendChild(a);
-            ul.appendChild(li);
-          }
-        });
+      function ( response ) {
+        console.log( response );
+        var authResponse = response.authResponse;
+
+        if (!authResponse) {
+          return
+        }
+
+        // PROCESS
+        var access_token = CryptoJS.AES.encrypt( authResponse.access_token, secrets );
+        var userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );;
+
+        var request = new Request( {
+          url: 'http://localhost:3000/dev/save-access-token',
+          method: 'GET',
+          access_token,
+          userID
+        } );
+
+        fetch( request );
       },
       { scope: 'pages_show_list' }
     );
@@ -52,7 +55,7 @@ function App() {
     <div className="App">
       <h1>Integração Facebook</h1>
       <div className="card">
-        <button style={fbButtonStyle} onClick={myFacebookLogin}>
+        <button style={ fbButtonStyle } onClick={ myFacebookLogin }>
           Continue with Facebook
         </button>
       </div>
