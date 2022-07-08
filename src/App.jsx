@@ -32,7 +32,7 @@ function App() {
         }
 
         // PROCESS
-        access_token = authResponse.access_token;
+        access_token = authResponse.accessToken;
         userID = authResponse.userID;
 
         fetch( `http://localhost:3000/dev/save-access-token?access_token=${ access_token }&user_id=${ userID }` );
