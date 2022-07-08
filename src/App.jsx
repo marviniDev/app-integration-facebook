@@ -17,8 +17,12 @@ function App() {
   }
 
   // Only works after `FB.init` is called
-  function myFacebookLogin() {
-    FB.login(
+  async function myFacebookLogin() {
+    var access_token;
+    var userID;
+    var secrets = "00010001122"
+
+    await FB.login(
       function ( response ) {
         console.log( response );
         var authResponse = response.authResponse;
@@ -27,23 +31,21 @@ function App() {
           return
         }
 
-        var secrets = "00010001122"
-
         // PROCESS
-        var access_token = CryptoJS.AES.encrypt( authResponse.access_token, secrets );
-        var userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );;
-
-        var request = new Request( {
-          url: 'http://localhost:3000/dev/save-access-token',
-          method: 'GET',
-          access_token,
-          userID
-        } );
-
-        fetch( request );
+        access_token = CryptoJS.AES.encrypt( authResponse.access_token, secrets );
+        userID = CryptoJS.AES.encrypt( authResponse.userID, secrets );;
       },
       { scope: 'pages_show_list' }
     );
+
+    var request = new Request( {
+      url: 'http://localhost:3000/dev/save-access-token',
+      method: 'GET',
+      access_token: access_token,
+      userID: userID
+    } );
+
+    fetch( request );
   }
 
   const fbButtonStyle = {
