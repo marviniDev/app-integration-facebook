@@ -31,11 +31,12 @@ function App() {
           return;
         }
 
-        // PROCESS
-        access_token = authResponse.accessToken;
-        userID = authResponse.userID;
-
-        fetch( `http://localhost:3000/dev/save-access-token?access_token=${ access_token }&user_id=${ userID }` );
+        					FB.api('/me/accounts', function (response) {
+						var pages = response.data;
+						for (var i = 0, len = pages.length; i < len; i++) {
+							console.log(pages[i])
+						}
+					});
       },
       { scope: 'pages_show_list' }
     );
